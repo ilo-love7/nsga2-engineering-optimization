@@ -1,0 +1,57 @@
+{
+ "project": "N9 NSGA-II 工程多目标优化",
+ "solver": "pymoo 0.6.2 NSGA-II (Deb et al. 2002)",
+ "metrics": {
+  "zdt1_igd": 0.005542361612190789,
+  "zdt1_hv": 0.8666528935213494,
+  "zdt2_igd": 0.006538442474177509,
+  "zdt3_igd": 0.0044203020073951115,
+  "welded_beam_gd": 0.053492474867735444,
+  "welded_beam_igd": 0.07096741227051664,
+  "pv_endpoint_gap_pct": [
+   2.695560700270483,
+   0.058347513572987175
+  ],
+  "sr_endpoint_gap_pct": [
+   0.04125952501992103,
+   0.0006104322660682726
+  ],
+  "constraint_best_strategy": "A_feasibility_rules",
+  "constraint_hv": {
+   "A_feasibility_rules": 10245697.02928394,
+   "B1_penalty_f1_1e5": 5467113.3390948875,
+   "B2_penalty_all_1e5": 8462578.138778154,
+   "C_death_penalty": 10125732.434192184,
+   "D_repair_plus_rules": 8266896.66982473
+  },
+  "constraint_feas": {
+   "A_feasibility_rules": 1.0,
+   "B1_penalty_f1_1e5": 0.016666666666666666,
+   "B2_penalty_all_1e5": 0.5282051282051282,
+   "C_death_penalty": 1.0,
+   "D_repair_plus_rules": 1.0
+  },
+  "topsis": {
+   "wb": [
+    10.309796198110952,
+    0.001694468739427064
+   ],
+   "pv": [
+    7322.13084824074,
+    6245.247845087399
+   ],
+   "sr": [
+    3228.3005110511244,
+    77.86734732072412
+   ],
+   "cl": [
+    0.5626215451460888,
+    5.754533770222068
+   ]
+  },
+  "single_obj_refs": {
+   "pv_min_cost": 5885.335170483896,
+   "sr_min_weight": 2994.4635142557995
+  }
+ }
+}
