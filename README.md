@@ -12,7 +12,11 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
         ├─→ 02 NSGA-II 前沿复现（ZDT 解析 / WB 官方参考 / 自算端点对照）
         ├─→ 03 调参扫描 pop×gen → GD/IGD/HV 收敛曲线
         ├─→ 04 约束策略：可行性规则 / 罚(f1) / 罚(全) / 死刑 / 修复
-        └─→ 05 TOPSIS 折中选点 + 汇总
+        ├─→ 05 TOPSIS 折中选点 + 汇总
+        ├─→ 06 双向 ε-约束真参考前沿（PV / SR 整数枚举 z / WB 官方交叉验证）  [v1.1]
+        ├─→ 07 memetic 精修（ASF + 端点 SLSQP）vs raw 前沿                  [v1.1]
+        ├─→ 08 IGD-代数收敛曲线（10 种子）+ 等预算 pop/gen 对比             [v1.1]
+        └─→ 09 TOPSIS 权重轨迹 + 膝点 + 扰动稳定率                          [v1.1]
 ```
 
 ## 核心结果（v1.0.0）
@@ -26,7 +30,16 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
 | 约束策略 | 可行性规则最优；**罚仅 f1 结构性失效**（可行率 1.7%） |
 | TOPSIS | 四题折中解 C*=0.744–0.923，决策变量全录 |
 
-26 项单测全绿；`run_all.sh` 一键 01–05（~3 min）。
+## 核心结果（v1.1.0 深化）
+
+| 指标 | 数值 |
+|---|---|
+| 真参考前沿（ε-约束双向扫描） | PV 40 点（端点 0.0003%）/ SR 101 点（z=17–28 全在前沿）/ WB 69 点（vs 官方 GD 3.2e-2 / IGD 2.0e-1） |
+| memetic 精修（ASF+端点） | **PV f1 角点 2.70% → 0.01%**；WB IGD 2.3×、SR IGD −35%，HV 全线提升 |
+| 收敛统计 | IGD-代数 10 种子 mean/min/max + 等预算 NFE=15000 四配置 |
+| TOPSIS 敏感性 | PV 等权=膝点、±10% 稳定率 1.00；WB/SR 稠密前沿索引稳定率低但跳变中位仅 0.02–0.03（口径陷阱，见报告 §14） |
+
+34 项单测全绿；`run_all.sh` 一键 01–09 + pytest。
 
 ## 关键口径
 
@@ -38,7 +51,7 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
 
 ```bash
 pip install -r requirements.txt
-bash run_all.sh          # 01–05 实验 + pytest
+bash run_all.sh          # 01–09 实验 + pytest
 ```
 
-结果 JSON 在 `results/`，前沿数据 `results/02_fronts.npz`（TOPSIS 可复算），图在 `figures/`，报告在 `reports/`。
+结果 JSON 在 `results/`，前沿数据 `results/02_fronts.npz` + `06_ref_fronts.npz` + `07_front_*.npz`（TOPSIS/指标可复算），图在 `figures/`，报告在 `reports/`。
