@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# N9 NSGA-II 一键复现：01–05（v1.0）+ 06–09（v1.1）+ 10–13（v1.2）→ 单测
+# N9 NSGA-II 一键复现：01–05（v1.0）+ 06–09（v1.1）+ 10–13（v1.2）+ 14–17（v1.3）→ 单测
 set -euo pipefail
 cd "$(dirname "$0")"
 PY="${PYTHON:-python}"
@@ -30,6 +30,14 @@ echo "=== 12 鲁棒优化（v1.2） ==="
 "$PY" scripts/12_robust_optimization.py
 echo "=== 13 v1.2 汇总表 ==="
 "$PY" scripts/13_summary_v12.py
+echo "=== 14 约束处理对比（v1.3，长） ==="
+"$PY" scripts/14_constraint_handling.py
+echo "=== 15 ELECTRE/PROMETHEE 选点（v1.3） ==="
+"$PY" scripts/15_outranking.py
+echo "=== 16 PV 离散整数 NSGA-II（v1.3，长） ==="
+"$PY" scripts/16_discrete_pv.py
+echo "=== 17 v1.3 汇总表 ==="
+"$PY" scripts/17_summary_v13.py
 echo "=== pytest ==="
 "$PY" -m pytest tests/ -q
 echo "ALL DONE"

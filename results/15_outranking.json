@@ -1,0 +1,260 @@
+{
+ "config": {
+  "n_draws": 100,
+  "perturb": 0.1,
+  "methods": [
+   "topsis",
+   "promethee",
+   "electre"
+  ],
+  "electre_default": {
+   "q_frac": 0.02,
+   "p_frac": 0.08,
+   "v_frac": 0.25
+  },
+  "promethee_default": {
+   "q_frac": 0.0,
+   "p_frac": 0.1
+  }
+ },
+ "fronts": {
+  "pv": {
+   "n": 40,
+   "m": 2,
+   "methods": {
+    "topsis": {
+     "base_index": 38,
+     "base_F": [
+      7319.077831945791,
+      6239.527601609808
+     ],
+     "uto": 0.7071067811865475,
+     "index_stability": 1.0,
+     "jump_median": 0.0,
+     "jump_max": 0.0,
+     "n_unique_selected": 1
+    },
+    "promethee": {
+     "base_index": 23,
+     "base_F": [
+      6745.521232387818,
+      8709.287030601352
+     ],
+     "uto": 0.5098669739311582,
+     "index_stability": 0.0,
+     "jump_median": 0.8485270849705885,
+     "jump_max": 0.8485270849705885,
+     "n_unique_selected": 2
+    },
+    "electre": {
+     "base_index": 17,
+     "base_F": [
+      6554.322516678098,
+      9532.759331407262
+     ],
+     "uto": 0.5010772948688357,
+     "index_stability": 0.0,
+     "jump_median": 0.7071710974334268,
+     "jump_max": 0.7542802363453615,
+     "n_unique_selected": 3
+    }
+   },
+   "agreement": {
+    "same_index_pairs": 0,
+    "n_pairs": 3,
+    "pair_dist_median": 0.5656864800605269
+   },
+   "electre_threshold_sensitivity": {
+    "n_settings": 27,
+    "n_unique_selected": 5,
+    "selected_counts": {
+     "32": 6,
+     "16": 9,
+     "17": 3,
+     "23": 8,
+     "14": 1
+    },
+    "top_share": 0.3333333333333333
+   }
+  },
+  "sr": {
+   "n": 101,
+   "m": 2,
+   "methods": {
+    "topsis": {
+     "base_index": 13,
+     "base_F": [
+      3246.6278958538555,
+      76.71853837891733
+     ],
+     "uto": 0.06295590876589198,
+     "index_stability": 0.9,
+     "jump_median": 0.0,
+     "jump_max": 0.0378082308156151,
+     "n_unique_selected": 2
+    },
+    "promethee": {
+     "base_index": 14,
+     "base_F": [
+      3274.6464859681905,
+      75.49108392520205
+     ],
+     "uto": 0.06375156636519462,
+     "index_stability": 1.0,
+     "jump_median": 0.0,
+     "jump_max": 0.0,
+     "n_unique_selected": 1
+    },
+    "electre": {
+     "base_index": 14,
+     "base_F": [
+      3274.6464859681905,
+      75.49108392520205
+     ],
+     "uto": 0.06375156636519462,
+     "index_stability": 1.0,
+     "jump_median": 0.0,
+     "jump_max": 0.0,
+     "n_unique_selected": 1
+    }
+   },
+   "agreement": {
+    "same_index_pairs": 1,
+    "n_pairs": 3,
+    "pair_dist_median": 0.03665488950951922
+   },
+   "electre_threshold_sensitivity": {
+    "n_settings": 27,
+    "n_unique_selected": 2,
+    "selected_counts": {
+     "14": 23,
+     "13": 4
+    },
+    "top_share": 0.8518518518518519
+   }
+  },
+  "wb": {
+   "n": 69,
+   "m": 2,
+   "methods": {
+    "topsis": {
+     "base_index": 39,
+     "base_F": [
+      6.659083289303112,
+      0.002737058658727633
+     ],
+     "uto": 0.1383751752250619,
+     "index_stability": 0.55,
+     "jump_median": 0.0,
+     "jump_max": 0.0329541407218989,
+     "n_unique_selected": 3
+    },
+    "promethee": {
+     "base_index": 28,
+     "base_F": [
+      3.503077904202394,
+      0.005801083537029752
+     ],
+     "uto": 0.24858266416904315,
+     "index_stability": 0.49,
+     "jump_median": 0.024189304787272152,
+     "jump_max": 0.46670291482876636,
+     "n_unique_selected": 6
+    },
+    "electre": {
+     "base_index": 41,
+     "base_F": [
+      7.621112108454031,
+      0.00235405554893969
+     ],
+     "uto": 0.14021941235707178,
+     "index_stability": 0.8,
+     "jump_median": 0.0,
+     "jump_max": 0.07052150788026068,
+     "n_unique_selected": 2
+    }
+   },
+   "agreement": {
+    "same_index_pairs": 0,
+    "n_pairs": 3,
+    "pair_dist_median": 0.22044508475459396
+   },
+   "electre_threshold_sensitivity": {
+    "n_settings": 27,
+    "n_unique_selected": 6,
+    "selected_counts": {
+     "37": 3,
+     "39": 12,
+     "43": 3,
+     "38": 3,
+     "41": 3,
+     "35": 3
+    },
+    "top_share": 0.4444444444444444
+   }
+  },
+  "sr3": {
+   "n": 84,
+   "m": 3,
+   "methods": {
+    "topsis": {
+     "base_index": 78,
+     "base_F": [
+      3113.6895245866717,
+      83.13965776007174,
+      348.96478696774136
+     ],
+     "uto": 0.13790641143169535,
+     "index_stability": 0.91,
+     "jump_median": 0.0,
+     "jump_max": 0.060092748067258644,
+     "n_unique_selected": 3
+    },
+    "promethee": {
+     "base_index": 70,
+     "base_F": [
+      3070.765061021917,
+      86.83293560014009,
+      342.4079517225981
+     ],
+     "uto": 0.19284259883237934,
+     "index_stability": 0.16,
+     "jump_median": 0.034594195039520874,
+     "jump_max": 0.061180954225579114,
+     "n_unique_selected": 4
+    },
+    "electre": {
+     "base_index": 82,
+     "base_F": [
+      3200.2302190097075,
+      78.84247252108283,
+      361.5406852945297
+     ],
+     "uto": 0.1025931630276826,
+     "index_stability": 0.94,
+     "jump_median": 0.0,
+     "jump_max": 0.07858811870843507,
+     "n_unique_selected": 2
+    }
+   },
+   "agreement": {
+    "same_index_pairs": 0,
+    "n_pairs": 3,
+    "pair_dist_median": 0.13867365884561333
+   },
+   "electre_threshold_sensitivity": {
+    "n_settings": 27,
+    "n_unique_selected": 5,
+    "selected_counts": {
+     "78": 7,
+     "74": 1,
+     "80": 6,
+     "82": 11,
+     "76": 2
+    },
+    "top_share": 0.4074074074074074
+   }
+  }
+ },
+ "runtime_s": 0.47737693786621094
+}

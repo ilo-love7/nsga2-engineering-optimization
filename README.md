@@ -20,7 +20,11 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
         ├─→ 10 多算法等预算对比（NSGA-II/III/MOEA-D，NFE=20000）           [v1.2]
         ├─→ 11 三目标减速器（参考方向密度 + TOPSIS-3D + 第三目标价值）      [v1.2]
         ├─→ 12 鲁棒优化（公差扫描 + 可靠度-代价 + mean/worst）             [v1.2]
-        └─→ 13 v1.2 汇总表                                                 [v1.2]
+        ├─→ 13 v1.2 汇总表                                                 [v1.2]
+        ├─→ 14 约束处理七配置对比（rules/death/罚/动态/自适应/ε + 标度对照） [v1.3]
+        ├─→ 15 ELECTRE III / PROMETHEE II vs TOPSIS 选点稳定性             [v1.3]
+        ├─→ 16 PV 离散整数 NSGA-II（三管线 + 网格分辨率扫描）               [v1.3]
+        └─→ 17 v1.3 汇总表                                                 [v1.3]
 ```
 
 ## 核心结果（v1.0.0）
@@ -51,7 +55,15 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
 | E21 三目标 SR3 | 参考方向 28→325：IGD 单调 8.1e-2→3.1e-2（**内点最优未获支持**）、HV 浅平台；TOPSIS-3D C*=0.871、±10% 稳定率 0.83；双目标设计比 3 目标体积下限高 **11.7%**（隐性浪费） |
 | E22 鲁棒优化 | 名义 PV 前沿 ±1% 公差 p_feas≈0.06（整条脆弱、与公差大小 0.25–5% 无关）；可靠度 5% 稳健溢价 f1 +20.0% / f2 +17.8%（p_feas 0.065→0.953）；**mean 口径名义可行率 0.0（证伪「均值约束=稳健」）** |
 
-78 项单测全绿（34 + v1.2 44）；`run_all.sh` 一键 01–13 + pytest。
+## 核心结果（v1.3.0 深化）
+
+| 指标 | 数值 |
+|---|---|
+| E23 约束处理七配置（2 万 NFE×3 种子） | **rules 三问题 feas 1.00 + IGD 全最优**（标度无关）；death 在 sr/sr3 悬崖 feas 0.000（每 100 随机点仅 0.25/0.05 可行 → 全 1e12 无梯度漂移，两问题 viol 同 0.4628）；static 1e5 在 PV 只 0.43（F 量级 1e6 罚不足）；dynamic 终值标度不足、配平后 sr 0.52→0.87 但 PV 仍 0（早期宽松→不可行路径依赖） |
+| E24 ELECTRE/PROMETHEE vs TOPSIS | SR 上三方法同点（pair_dist 0.037）；PV 分歧最大（TOPSIS 稳定贴极端点 uto 0.707，PROMETHEE/ELECTRE 内点但跳变 0.7–0.85 真不稳）；ELECTRE 3 目标最稳（SR3 稳定率 0.94、uto 0.103）但阈值敏感（top_share 0.33–0.85） |
+| E25 PV 离散整数 NSGA-II | **grid_ops 全面胜出**（IGD 0.232 vs eval_repair 0.498、HV +31%）；修复吸引效应（Ts 2 水平 vs 5 水平）；HV 损失 48%→32%；网格粗化单调劣化（7.79e6→4.69e6）；量化使 75% 参考点违反微增 |
+
+131 项单测全绿（78 + v1.3 53）；`run_all.sh` 一键 01–17 + pytest。
 
 ## 关键口径
 
@@ -60,12 +72,15 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
 - 非支配过滤方向单测钉住（方向反了会删优留劣）。
 - MOEA/D 原生不支持约束 → DeathPenaltyWrapper 转无约束（口径差异报告 §17 披露）；res.F/G 一律回原问题重评。
 - pymoo 0.6.2 NSGA-III 锦标赛熵回落 bug 已修复（`comp_by_cv_then_random_fixed`，同 seed 跨调用可复现，报告 §21 坑 18）。
+- 罚/死刑/ε 的指标一律回原问题重评（罚值、1e12、松弛 G 不进指标）；可行判据 G≤1e-6（约束已按量级归一化）。
+- ELECTRE 排序用净可信度流（非完整 III 蒸馏，如实标注）；稳定性必须双口径（index 稳定率 + 跳变中位，报告 §14/§25）。
+- 离散管线的指标在 quantize 后的设计点上计算（eval_repair 的原始 X 会被投影回网格）。
 
 ## 复现
 
 ```bash
 pip install -r requirements.txt
-bash run_all.sh          # 01–13 实验 + pytest
+bash run_all.sh          # 01–17 实验 + pytest
 ```
 
-结果 JSON 在 `results/`，前沿数据 `results/02_fronts.npz` + `06_ref_fronts.npz` + `07_front_*.npz` + `10_sr3_ref.npz`（TOPSIS/指标可复算），v1.2 汇总表 `results/v12_summary_tables.md`，图在 `figures/`，报告在 `reports/`。
+结果 JSON 在 `results/`，前沿数据 `results/02_fronts.npz` + `06_ref_fronts.npz` + `07_front_*.npz` + `10_sr3_ref.npz`（TOPSIS/指标可复算），汇总表 `results/v12_summary_tables.md` + `v13_summary_tables.md`，图在 `figures/`，报告在 `reports/`。
