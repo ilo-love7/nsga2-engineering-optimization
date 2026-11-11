@@ -37,3 +37,28 @@ def gd_igd_numpy(F: np.ndarray, ref: np.ndarray) -> tuple[float, float]:
     g = float(d.min(axis=1).mean())
     i = float(d.min(axis=0).mean())
     return g, i
+
+
+def normalize_fronts(F: np.ndarray, ref: np.ndarray):
+    """按参考前沿量程逐目标 min-max 归一化（v1.2：多量纲目标用）。
+
+    scale 取 ref 的 (max−min)，退化维度（常数目标）除 1。
+    """
+    F = np.asarray(F, dtype=float)
+    R = np.asarray(ref, dtype=float)
+    lo = R.min(axis=0)
+    hi = R.max(axis=0)
+    scale = np.where(hi > lo, hi - lo, 1.0)
+    return (F - lo) / scale, (R - lo) / scale
+
+
+def igd_norm(F: np.ndarray, ref: np.ndarray) -> float:
+    """归一化 IGD：先按参考前沿量程归一化再算 IGD（跨量纲可比）。"""
+    Fn, Rn = normalize_fronts(F, ref)
+    return igd(Fn, Rn)
+
+
+def gd_norm(F: np.ndarray, ref: np.ndarray) -> float:
+    """归一化 GD。"""
+    Fn, Rn = normalize_fronts(F, ref)
+    return gd(Fn, Rn)

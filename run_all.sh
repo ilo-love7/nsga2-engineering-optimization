@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# N9 NSGA-II 一键复现：01–05（v1.0）+ 06–09（v1.1）→ 单测
+# N9 NSGA-II 一键复现：01–05（v1.0）+ 06–09（v1.1）+ 10–13（v1.2）→ 单测
 set -euo pipefail
 cd "$(dirname "$0")"
 PY="${PYTHON:-python}"
@@ -22,6 +22,14 @@ echo "=== 08 收敛统计 + 等预算（v1.1，较长） ==="
 "$PY" scripts/08_convergence_stats.py
 echo "=== 09 TOPSIS 敏感性（v1.1） ==="
 "$PY" scripts/09_topsis_sensitivity.py
+echo "=== 10 多算法等预算对比（v1.2，长） ==="
+"$PY" scripts/10_algorithm_comparison.py
+echo "=== 11 三目标减速器深化（v1.2，长） ==="
+"$PY" scripts/11_three_objective.py
+echo "=== 12 鲁棒优化（v1.2） ==="
+"$PY" scripts/12_robust_optimization.py
+echo "=== 13 v1.2 汇总表 ==="
+"$PY" scripts/13_summary_v12.py
 echo "=== pytest ==="
 "$PY" -m pytest tests/ -q
 echo "ALL DONE"

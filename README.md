@@ -16,7 +16,11 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
         ├─→ 06 双向 ε-约束真参考前沿（PV / SR 整数枚举 z / WB 官方交叉验证）  [v1.1]
         ├─→ 07 memetic 精修（ASF + 端点 SLSQP）vs raw 前沿                  [v1.1]
         ├─→ 08 IGD-代数收敛曲线（10 种子）+ 等预算 pop/gen 对比             [v1.1]
-        └─→ 09 TOPSIS 权重轨迹 + 膝点 + 扰动稳定率                          [v1.1]
+        ├─→ 09 TOPSIS 权重轨迹 + 膝点 + 扰动稳定率                          [v1.1]
+        ├─→ 10 多算法等预算对比（NSGA-II/III/MOEA-D，NFE=20000）           [v1.2]
+        ├─→ 11 三目标减速器（参考方向密度 + TOPSIS-3D + 第三目标价值）      [v1.2]
+        ├─→ 12 鲁棒优化（公差扫描 + 可靠度-代价 + mean/worst）             [v1.2]
+        └─→ 13 v1.2 汇总表                                                 [v1.2]
 ```
 
 ## 核心结果（v1.0.0）
@@ -39,19 +43,29 @@ pymoo Problem 建模（2 内置 + 2 自研）─→ 01 单目标端点校验（�
 | 收敛统计 | IGD-代数 10 种子 mean/min/max + 等预算 NFE=15000 四配置 |
 | TOPSIS 敏感性 | PV 等权=膝点、±10% 稳定率 1.00；WB/SR 稠密前沿索引稳定率低但跳变中位仅 0.02–0.03（口径陷阱，见报告 §14） |
 
-34 项单测全绿；`run_all.sh` 一键 01–09 + pytest。
+## 核心结果（v1.2.0 深化）
+
+| 指标 | 数值 |
+|---|---|
+| E20 多算法等预算（NFE=20000） | ZDT1 nsga3 最优 4.5e-3、ZDT3 nsga2 3.3e-3（断裂前沿伤参考向量法）、PV nsga3 0.25（种子 std 36%）；**SR3 上 nsga2 1.36e-2 反超 nsga3 4.41e-2 / moead 4.64e-2（证伪「3 目标参考向量法占优」）**；moead GD 最好 HV 最差（收敛集中、覆盖崩塌） |
+| E21 三目标 SR3 | 参考方向 28→325：IGD 单调 8.1e-2→3.1e-2（**内点最优未获支持**）、HV 浅平台；TOPSIS-3D C*=0.871、±10% 稳定率 0.83；双目标设计比 3 目标体积下限高 **11.7%**（隐性浪费） |
+| E22 鲁棒优化 | 名义 PV 前沿 ±1% 公差 p_feas≈0.06（整条脆弱、与公差大小 0.25–5% 无关）；可靠度 5% 稳健溢价 f1 +20.0% / f2 +17.8%（p_feas 0.065→0.953）；**mean 口径名义可行率 0.0（证伪「均值约束=稳健」）** |
+
+78 项单测全绿（34 + v1.2 44）；`run_all.sh` 一键 01–13 + pytest。
 
 ## 关键口径
 
 - 文献数字离线不可核 → 参考前沿两类：解析/官方（ZDT、pymoo welded_beam.pf）+ 自算单目标端点（SLSQP 60 起点，报告如实标注）。
 - 约束输出按量级归一化（g3 ~1.3e6 不归一化会误判不可行）。
 - 非支配过滤方向单测钉住（方向反了会删优留劣）。
+- MOEA/D 原生不支持约束 → DeathPenaltyWrapper 转无约束（口径差异报告 §17 披露）；res.F/G 一律回原问题重评。
+- pymoo 0.6.2 NSGA-III 锦标赛熵回落 bug 已修复（`comp_by_cv_then_random_fixed`，同 seed 跨调用可复现，报告 §21 坑 18）。
 
 ## 复现
 
 ```bash
 pip install -r requirements.txt
-bash run_all.sh          # 01–09 实验 + pytest
+bash run_all.sh          # 01–13 实验 + pytest
 ```
 
-结果 JSON 在 `results/`，前沿数据 `results/02_fronts.npz` + `06_ref_fronts.npz` + `07_front_*.npz`（TOPSIS/指标可复算），图在 `figures/`，报告在 `reports/`。
+结果 JSON 在 `results/`，前沿数据 `results/02_fronts.npz` + `06_ref_fronts.npz` + `07_front_*.npz` + `10_sr3_ref.npz`（TOPSIS/指标可复算），v1.2 汇总表 `results/v12_summary_tables.md`，图在 `figures/`，报告在 `reports/`。
